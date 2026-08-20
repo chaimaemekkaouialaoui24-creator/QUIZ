@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Quiz pédagogique interactif sur l'intelligence artificielle responsable et digne de confiance."
+  />
+  <title>Quiz — IA responsable et digne de confiance</title>
+  <style>
+:root {
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --surface-soft: #f4f2ff;
+  --text: #1e2340;
+  --muted: #6b728c;
+  --primary: #6657e8;
+  --primary-dark: #5042cb;
+  --primary-soft: #eeecff;
+  --success: #16835d;
+  --success-bg: #ecf9f3;
+  --danger: #b8505a;
+  --danger-bg: #fff1f2;
+  --border: #e5e7f1;
+  --shadow: 0 18px 50px rgba(44, 40, 95, 0.10);
+  --shadow-soft: 0 8px 24px rgba(44, 40, 95, 0.08);
+  --radius-xl: 28px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --focus: 0 0 0 4px rgba(102, 87, 232, 0.20);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(117, 94, 255, 0.10), transparent 30%),
+    radial-gradient(circle at 85% 0%, rgba(83, 140, 255, 0.09), transparent 28%),
+    var(--bg);
+}
+
+button {
+  font: inherit;
+}
+
+button,
+.option-card {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+}
+
+.app {
+  width: min(900px, 100%);
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(229, 231, 241, 0.92);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+  padding: clamp(24px, 5vw, 52px);
+  backdrop-filter: blur(10px);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  right: -100px;
+  top: -90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(102, 87, 232, 0.16), rgba(102, 87, 232, 0.03));
+  pointer-events: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 5px rgba(102, 87, 232, 0.12);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 5vw, 3.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  margin-bottom: 18px;
+  color: var(--primary-dark);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+}
+
+.lead {
+  max-width: 680px;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.meta-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.btn {
+  min-height: 50px;
+  border: 0;
+  border-radius: 14px;
+  padding: 13px 20px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease,
+    opacity 160ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible,
+.option-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #7d68ef);
+  box-shadow: 0 10px 22px rgba(102, 87, 232, 0.28);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary-dark), #6c58e1);
+}
+
+.btn-secondary {
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+}
+
+.btn-ghost {
+  color: var(--text);
+  background: #f7f7fb;
+  border: 1px solid var(--border);
+}
+
+.quiz-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.question-counter {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.score-mini {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.progress-track {
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  border-radius: 999px;
+  background: #ebeaf3;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #8b74f5);
+  transition: width 420ms cubic-bezier(.2,.8,.2,1);
+}
+
+.question {
+  margin-bottom: 24px;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.options {
+  display: grid;
+  gap: 12px;
+}
+
+.option-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 14px;
+  min-height: 68px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(40, 42, 75, 0.035);
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.option-card:hover:not([disabled]) {
+  transform: translateY(-1px);
+  border-color: #c9c4ff;
+  box-shadow: var(--shadow-soft);
+}
+
+.option-letter {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 11px;
+  color: var(--muted);
+  background: #f4f4f9;
+  font-weight: 800;
+  transition: inherit;
+}
+
+.option-text {
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.option-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  box-shadow: 0 7px 22px rgba(102, 87, 232, 0.11);
+}
+
+.option-card.selected .option-letter {
+  color: #fff;
+  background: var(--primary);
+}
+
+.option-card.correct {
+  border-color: rgba(22, 131, 93, 0.60);
+  background: var(--success-bg);
+}
+
+.option-card.correct .option-letter {
+  color: #fff;
+  background: var(--success);
+}
+
+.option-card.incorrect {
+  border-color: rgba(184, 80, 90, 0.55);
+  background: var(--danger-bg);
+}
+
+.option-card.incorrect .option-letter {
+  color: #fff;
+  background: var(--danger);
+}
+
+.feedback {
+  margin-top: 24px;
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  animation: riseIn 260ms ease;
+}
+
+.feedback.success {
+  border: 1px solid rgba(22, 131, 93, 0.20);
+  background: var(--success-bg);
+}
+
+.feedback.error {
+  border: 1px solid rgba(184, 80, 90, 0.20);
+  background: var(--danger-bg);
+}
+
+.feedback-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.feedback-icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.feedback.success .feedback-icon {
+  background: var(--success);
+}
+
+.feedback.error .feedback-icon {
+  background: var(--danger);
+}
+
+.feedback p {
+  margin-bottom: 0;
+  color: #50566f;
+  line-height: 1.65;
+}
+
+.feedback strong {
+  color: var(--text);
+}
+
+.encouragement {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  font-weight: 700;
+}
+
+.correct-burst {
+  animation: correctPulse 420ms ease;
+}
+
+.results {
+  text-align: center;
+}
+
+.score-ring-wrap {
+  display: grid;
+  place-items: center;
+  margin: 30px auto 26px;
+}
+
+.score-ring {
+  --score-angle: 0deg;
+  width: 190px;
+  height: 190px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(var(--primary) var(--score-angle), #ecebf4 0);
+  position: relative;
+  animation: ringPop 480ms ease;
+}
+
+.score-ring::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.score-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.score-main {
+  display: block;
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.score-percent {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.result-label {
+  margin-bottom: 9px;
+  color: var(--primary-dark);
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.result-message {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.result-actions {
+  justify-content: center;
+}
+
+.review-list {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.review-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  background: var(--surface);
+  box-shadow: 0 5px 18px rgba(40, 42, 75, 0.04);
+}
+
+.review-heading {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.review-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 900;
+}
+
+.review-icon.ok {
+  background: var(--success);
+}
+
+.review-icon.no {
+  background: var(--danger);
+}
+
+.review-question {
+  margin: 2px 0 0;
+  line-height: 1.5;
+  font-weight: 800;
+}
+
+.review-row {
+  margin: 8px 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.review-row strong {
+  color: var(--text);
+}
+
+.review-explanation {
+  margin-top: 14px;
+  padding: 14px 15px;
+  border-radius: 12px;
+  color: #50566f;
+  background: #f7f7fb;
+  line-height: 1.6;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.celebration {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 50;
+}
+
+.confetti {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 16px;
+  border-radius: 3px;
+  background: var(--primary);
+  opacity: 0.88;
+  animation: confettiFall 1.9s linear forwards;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes correctPulse {
+  0% { transform: scale(1); }
+  48% { transform: scale(1.012); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ringPop {
+  0% {
+    opacity: 0;
+    transform: scale(.88);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(var(--drift), 110vh, 0) rotate(650deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    align-items: start;
+    padding: 14px 12px 24px;
+  }
+
+  .panel {
+    border-radius: 22px;
+    padding: 22px 17px;
+  }
+
+  .hero::after {
+    width: 180px;
+    height: 180px;
+  }
+
+  .option-card {
+    grid-template-columns: 38px 1fr;
+    min-height: 64px;
+    padding: 13px;
+  }
+
+  .option-letter {
+    width: 36px;
+    height: 36px;
+  }
+
+  .actions,
+  .review-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .quiz-topline {
+    align-items: flex-start;
+  }
+
+  .score-ring {
+    width: 165px;
+    height: 165px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <main id="app" class="app" aria-live="polite"></main>
+  </div>
+
+  <div
+    id="celebration"
+    class="celebration"
+    aria-hidden="true"
+  ></div>
+
+  <script>
+const quizQuestions = [
+  {
+    id: 1,
+    question: "Qu'appelle-t-on une donnée personnelle ?",
+    options: [
+      "Une information qui permet d'identifier directement ou indirectement une personne",
+      "Uniquement un mot de passe",
+      "Une donnée technique qui n'a jamais de lien avec un utilisateur",
+      "Seulement les informations publiées sur les réseaux sociaux"
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Une donnée personnelle peut être un nom, une adresse e-mail, une photo, une localisation ou toute information permettant d'identifier une personne, directement ou indirectement."
+  },
+  {
+    id: 2,
+    question: "Pourquoi certains sites utilisent-ils des cookies ?",
+    options: [
+      "Uniquement pour accélérer l'ordinateur",
+      "Pour mémoriser certaines préférences et parfois suivre la navigation à des fins publicitaires",
+      "Pour supprimer automatiquement les données personnelles",
+      "Pour empêcher toute personnalisation des services"
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Les cookies peuvent servir à conserver des préférences, mesurer l'audience et, selon les cas, suivre la navigation afin de personnaliser des contenus ou des publicités."
+  },
+  {
+    id: 3,
+    question: "Quel comportement permet de mieux contrôler ses données personnelles en ligne ?",
+    options: [
+      "Accepter automatiquement toutes les demandes sans les lire",
+      "Partager le même mot de passe sur tous les services",
+      "Vérifier les paramètres de confidentialité et limiter les autorisations inutiles",
+      "Publier davantage d'informations pour améliorer les recommandations"
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Lire les paramètres de confidentialité, refuser les autorisations inutiles et choisir ce que l'on partage permet de mieux maîtriser l'utilisation de ses données."
+  },
+  {
+    id: 4,
+    question: "Qu'est-ce qu'un biais dans les données d'entraînement d'une IA ?",
+    options: [
+      "Une erreur de connexion au serveur",
+      "Un déséquilibre ou une représentation injuste pouvant influencer les résultats de l'IA",
+      "Une méthode qui garantit toujours la neutralité",
+      "Une règle obligeant l'IA à expliquer toutes ses réponses"
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Si les données utilisées pour entraîner une IA reflètent des inégalités, des stéréotypes ou une sous-représentation de certains groupes, l'IA peut apprendre ces biais."
+  },
+  {
+    id: 5,
+    question: "Pourquoi un système d'IA utilisé pour le recrutement peut-il reproduire des discriminations ?",
+    options: [
+      "Parce qu'une IA refuse toujours les candidatures nouvelles",
+      "Parce qu'il utilise uniquement la couleur de l'interface",
+      "Parce qu'il peut apprendre des décisions passées déjà marquées par des biais",
+      "Parce qu'un algorithme ne traite jamais de données"
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Un algorithme entraîné sur des décisions de recrutement historiques peut reproduire des discriminations si ces décisions contenaient déjà des biais."
+  },
+  {
+    id: 6,
+    question: "Pourquoi la transparence est-elle importante dans une IA responsable ?",
+    options: [
+      "Pour aider à comprendre comment une décision a été produite et permettre sa contestation",
+      "Pour rendre tous les codes informatiques publics sans exception",
+      "Pour supprimer le besoin de supervision humaine",
+      "Pour garantir qu'une IA ne consomme aucune énergie"
+    ],
+    correctAnswer: 0,
+    explanation:
+      "La transparence aide les utilisateurs et les organisations à comprendre les critères d'une décision, à détecter des erreurs et à demander une explication ou une correction."
+  },
+  {
+    id: 7,
+    question: "Pourquoi certaines IA ont-elles un impact environnemental important ?",
+    options: [
+      "Parce qu'elles n'utilisent jamais de serveurs",
+      "Parce qu'elles nécessitent parfois beaucoup de calcul, de stockage et donc d'énergie",
+      "Parce que toutes les IA fonctionnent uniquement sur batterie",
+      "Parce que les données numériques n'utilisent aucune infrastructure physique"
+    ],
+    correctAnswer: 1,
+    explanation:
+      "L'entraînement et l'utilisation de certains systèmes d'IA mobilisent des serveurs, des data centers, du calcul et du stockage, ce qui peut entraîner une consommation énergétique importante."
+  },
+  {
+    id: 8,
+    question: "Quelle action peut contribuer à réduire l'empreinte écologique numérique ?",
+    options: [
+      "Conserver toutes les données sans limite",
+      "Multiplier les traitements inutiles",
+      "Optimiser les modèles, limiter les calculs inutiles et mieux gérer le stockage",
+      "Toujours utiliser la solution la plus lourde possible"
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Réduire les calculs inutiles, choisir des solutions adaptées au besoin et limiter le stockage superflu permettent de diminuer les ressources consommées."
+  },
+  {
+    id: 9,
+    question: "Que signifie la gouvernance de l'intelligence artificielle ?",
+    options: [
+      "Laisser les systèmes d'IA décider seuls de toutes les règles",
+      "Organiser les responsabilités, les règles et les contrôles autour du développement et de l'usage de l'IA",
+      "Utiliser l'IA uniquement dans les administrations",
+      "Remplacer toutes les lois par des algorithmes"
+    ],
+    correctAnswer: 1,
+    explanation:
+      "La gouvernance de l'IA définit qui est responsable, quelles règles s'appliquent, quels contrôles sont nécessaires et comment les risques sont suivis."
+  },
+  {
+    id: 10,
+    question: "Quel rôle les institutions et la réglementation peuvent-elles jouer pour une IA digne de confiance ?",
+    options: [
+      "Fixer des règles pour protéger les personnes et encadrer les usages à risque",
+      "Interdire toute innovation numérique",
+      "Garantir que chaque IA donnera toujours la même réponse",
+      "Supprimer toute responsabilité des organisations"
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Les institutions et la réglementation peuvent imposer des obligations de sécurité, de transparence, de protection des droits et de gestion des risques."
+  }
+];
+
+const state = {
+  currentIndex: 0,
+  selectedOption: null,
+  answers: [],
+  score: 0,
+  validated: false,
+  currentOptions: []
+};
+
+const app = document.getElementById("app");
+const celebration = document.getElementById("celebration");
+const letters = ["A", "B", "C", "D"];
+
+function shuffleOptions(question) {
+  return question.options
+    .map((text, originalIndex) => ({
+      text,
+      originalIndex,
+      isCorrect: originalIndex === question.correctAnswer
+    }))
+    .sort(() => Math.random() - 0.5);
+}
+
+function resetState() {
+  state.currentIndex = 0;
+  state.selectedOption = null;
+  state.answers = [];
+  state.score = 0;
+  state.validated = false;
+  state.currentOptions = [];
+  celebration.innerHTML = "";
+  renderQuestion();
+}
+
+function renderWelcome() {
+  app.innerHTML = `
+    <section class="panel hero" aria-labelledby="welcome-title">
+      <div class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Micro-learning • Quiz interactif
+      </div>
+
+      <h1 id="welcome-title">Testez vos connaissances</h1>
+      <div class="subtitle">IA responsable et digne de confiance</div>
+
+      <p class="lead">
+        Ce quiz contient 10 questions. Testez vos connaissances et découvrez
+        immédiatement les explications après chaque réponse.
+      </p>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="startBtn" type="button">
+          Commencer le quiz
+        </button>
+      </div>
+
+      <div class="meta">
+        <span class="meta-icon" aria-hidden="true">◷</span>
+        <span>10 questions • environ 5 minutes</span>
+      </div>
+    </section>
+  `;
+
+  document.getElementById("startBtn").addEventListener("click", resetState);
+}
+
+function renderQuestion() {
+  const question = quizQuestions[state.currentIndex];
+  state.selectedOption = null;
+  state.validated = false;
+  state.currentOptions = shuffleOptions(question);
+
+  const questionNumber = state.currentIndex + 1;
+  const progress = (state.currentIndex / quizQuestions.length) * 100;
+
+  app.innerHTML = `
+    <section class="panel" id="quizPanel" aria-labelledby="question-title">
+      <div class="quiz-topline">
+        <p class="question-counter">Question ${questionNumber} sur ${quizQuestions.length}</p>
+        <span class="score-mini" aria-label="Score actuel">Score : ${state.score}</span>
+      </div>
+
+      <div
+        class="progress-track"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="${Math.round(progress)}"
+        aria-label="Progression du quiz"
+      >
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <h2 class="question" id="question-title">${question.question}</h2>
+
+      <div
+        class="options"
+        id="options"
+        role="radiogroup"
+        aria-labelledby="question-title"
+      >
+        ${state.currentOptions
+          .map(
+            (option, index) => `
+              <button
+                class="option-card"
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-index="${index}"
+              >
+                <span class="option-letter" aria-hidden="true">${letters[index]}</span>
+                <span class="option-text">${option.text}</span>
+              </button>
+            `
+          )
+          .join("")}
+      </div>
+
+      <div id="feedbackArea"></div>
+
+      <div class="actions" id="actionArea">
+        <button class="btn btn-primary" id="validateBtn" type="button" disabled>
+          Valider ma réponse
+        </button>
+      </div>
+    </section>
+  `;
+
+  requestAnimationFrame(() => {
+    document.getElementById("progressBar").style.width = `${progress}%`;
+  });
+
+  const optionButtons = [...document.querySelectorAll(".option-card")];
+  optionButtons.forEach((button) => {
+    button.addEventListener("click", () => selectOption(Number(button.dataset.index)));
+    button.addEventListener("keydown", (event) => handleOptionKeyboard(event, optionButtons));
+  });
+
+  document.getElementById("validateBtn").addEventListener("click", validateAnswer);
+}
+
+function handleOptionKeyboard(event, buttons) {
+  const current = buttons.indexOf(document.activeElement);
+  if (current === -1) return;
+
+  let nextIndex = null;
+  if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+    nextIndex = (current + 1) % buttons.length;
+  } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+    nextIndex = (current - 1 + buttons.length) % buttons.length;
+  }
+
+  if (nextIndex !== null) {
+    event.preventDefault();
+    buttons[nextIndex].focus();
+    selectOption(nextIndex);
+  }
+}
+
+function selectOption(index) {
+  if (state.validated) return;
+
+  state.selectedOption = index;
+
+  document.querySelectorAll(".option-card").forEach((button, buttonIndex) => {
+    const selected = buttonIndex === index;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-checked", String(selected));
+  });
+
+  document.getElementById("validateBtn").disabled = false;
+}
+
+function validateAnswer() {
+  if (state.selectedOption === null || state.validated) return;
+
+  state.validated = true;
+  const selected = state.currentOptions[state.selectedOption];
+  const isCorrect = selected.isCorrect;
+
+  if (isCorrect) state.score += 1;
+
+  state.answers.push({
+    questionId: quizQuestions[state.currentIndex].id,
+    selectedOriginalIndex: selected.originalIndex,
+    correctOriginalIndex: quizQuestions[state.currentIndex].correctAnswer,
+    isCorrect
+  });
+
+  const optionButtons = [...document.querySelectorAll(".option-card")];
+  optionButtons.forEach((button, index) => {
+    button.disabled = true;
+    button.classList.remove("selected");
+
+    const option = state.currentOptions[index];
+    if (option.isCorrect) {
+      button.classList.add("correct");
+    } else if (index === state.selectedOption && !isCorrect) {
+      button.classList.add("incorrect");
+    }
+  });
+
+  const feedbackArea = document.getElementById("feedbackArea");
+  feedbackArea.innerHTML = `
+    <div class="feedback ${isCorrect ? "success" : "error"}" role="status">
+      <div class="feedback-title">
+        <span class="feedback-icon" aria-hidden="true">${isCorrect ? "✓" : "✕"}</span>
+        <span>${isCorrect ? "Bonne réponse !" : "Pas tout à fait."}</span>
+      </div>
+      <p>
+        <strong>Pourquoi ?</strong><br />
+        ${quizQuestions[state.currentIndex].explanation}
+      </p>
+    </div>
+    <p class="encouragement">
+      ${getEncouragement(isCorrect, state.currentIndex)}
+    </p>
+  `;
+
+  if (isCorrect) {
+    document.getElementById("quizPanel").classList.add("correct-burst");
+  }
+
+  document.getElementById("actionArea").innerHTML = `
+    <button class="btn btn-primary" id="nextBtn" type="button">
+      ${state.currentIndex === quizQuestions.length - 1 ? "Voir mon résultat →" : "Question suivante →"}
+    </button>
+  `;
+
+  document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+
+  const progressAfterAnswer = ((state.currentIndex + 1) / quizQuestions.length) * 100;
+  const progressBar = document.getElementById("progressBar");
+  progressBar.style.width = `${progressAfterAnswer}%`;
+  progressBar.parentElement.setAttribute("aria-valuenow", String(Math.round(progressAfterAnswer)));
+}
+
+function getEncouragement(isCorrect, index) {
+  if (isCorrect) {
+    const positive = [
+      "Très bien, continuez comme ça.",
+      "Bonne progression.",
+      "Vous consolidez les bons réflexes.",
+      "Exact — notion bien comprise."
+    ];
+    return positive[index % positive.length];
+  }
+
+  const neutral = [
+    "L'explication vous aide à consolider cette notion.",
+    "Cette notion est importante pour la suite.",
+    "Vous pouvez maintenant retenir le point essentiel.",
+    "Continuez : chaque question permet de progresser."
+  ];
+  return neutral[index % neutral.length];
+}
+
+function nextQuestion() {
+  if (state.currentIndex < quizQuestions.length - 1) {
+    state.currentIndex += 1;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    renderResults();
+  }
+}
+
+function renderResults() {
+  const percentage = Math.round((state.score / quizQuestions.length) * 100);
+  const result = getResultMessage(state.score);
+
+  app.innerHTML = `
+    <section class="panel results" aria-labelledby="results-title">
+      <div class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Résultat
+      </div>
+
+      <h1 id="results-title">Quiz terminé !</h1>
+
+      <div class="score-ring-wrap">
+        <div
+          class="score-ring"
+          id="scoreRing"
+          role="img"
+          aria-label="Score : ${state.score} sur ${quizQuestions.length}, soit ${percentage} pour cent"
+        >
+          <div class="score-inner">
+            <span class="score-main">${state.score} / ${quizQuestions.length}</span>
+            <span class="score-percent">${percentage} %</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-label">${result.title}</div>
+      <p class="result-message">${result.message}</p>
+
+      <div class="actions result-actions">
+        <button class="btn btn-primary" id="reviewBtn" type="button">
+          Voir la correction
+        </button>
+        <button class="btn btn-secondary" id="restartBtn" type="button">
+          Recommencer le quiz
+        </button>
+      </div>
+    </section>
+  `;
+
+  requestAnimationFrame(() => {
+    const angle = (percentage / 100) * 360;
+    document.getElementById("scoreRing").style.setProperty("--score-angle", `${angle}deg`);
+  });
+
+  document.getElementById("reviewBtn").addEventListener("click", renderReview);
+  document.getElementById("restartBtn").addEventListener("click", resetState);
+
+  if (state.score >= 9) {
+    launchCelebration();
+  }
+}
+
+function getResultMessage(score) {
+  if (score <= 4) {
+    return {
+      title: "À revoir",
+      message: "Certaines notions importantes méritent encore un peu de révision."
+    };
+  }
+
+  if (score <= 7) {
+    return {
+      title: "Bien joué",
+      message: "Vous avez compris les principales notions du cours."
+    };
+  }
+
+  if (score <= 9) {
+    return {
+      title: "Très bien !",
+      message: "Vous maîtrisez très bien les enjeux d'une IA responsable."
+    };
+  }
+
+  return {
+    title: "Excellent !",
+    message: "Félicitations, vous maîtrisez parfaitement les notions essentielles de cette leçon."
+  };
+}
+
+function renderReview() {
+  const answerMap = new Map(state.answers.map((answer) => [answer.questionId, answer]));
+
+  app.innerHTML = `
+    <section class="panel" aria-labelledby="review-title">
+      <div class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Correction détaillée
+      </div>
+
+      <h1 id="review-title">Vos réponses</h1>
+      <p class="lead">
+        Retrouvez votre réponse, la bonne réponse et l'explication associée à chaque question.
+      </p>
+
+      <div class="review-list">
+        ${quizQuestions
+          .map((question, index) => {
+            const answer = answerMap.get(question.id);
+            const userAnswer = question.options[answer.selectedOriginalIndex];
+            const correctAnswer = question.options[question.correctAnswer];
+
+            return `
+              <article class="review-card">
+                <div class="review-heading">
+                  <span class="review-icon ${answer.isCorrect ? "ok" : "no"}" aria-hidden="true">
+                    ${answer.isCorrect ? "✓" : "✕"}
+                  </span>
+                  <p class="review-question">
+                    ${index + 1}. ${question.question}
+                  </p>
+                </div>
+
+                <p class="review-row">
+                  <strong>Votre réponse :</strong> ${userAnswer}
+                </p>
+                <p class="review-row">
+                  <strong>Bonne réponse :</strong> ${correctAnswer}
+                </p>
+
+                <div class="review-explanation">
+                  <strong>Explication :</strong> ${question.explanation}
+                </div>
+              </article>
+            `;
+          })
+          .join("")}
+      </div>
+
+      <div class="review-actions">
+        <button class="btn btn-ghost" id="backResultsBtn" type="button">
+          ← Retour au résultat
+        </button>
+        <button class="btn btn-primary" id="restartReviewBtn" type="button">
+          Recommencer le quiz
+        </button>
+      </div>
+    </section>
+  `;
+
+  document.getElementById("backResultsBtn").addEventListener("click", renderResults);
+  document.getElementById("restartReviewBtn").addEventListener("click", resetState);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function launchCelebration() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const total = state.score === 10 ? 48 : 28;
+  celebration.innerHTML = "";
+
+  for (let i = 0; i < total; i += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.animationDelay = `${Math.random() * 0.45}s`;
+    piece.style.setProperty("--drift", `${(Math.random() - 0.5) * 220}px`);
+    piece.style.transform = `rotate(${Math.random() * 180}deg)`;
+    piece.style.opacity = String(0.55 + Math.random() * 0.4);
+
+    const palette = ["#6657e8", "#8b74f5", "#16835d", "#e6b655", "#5474e8"];
+    piece.style.background = palette[Math.floor(Math.random() * palette.length)];
+
+    celebration.appendChild(piece);
+  }
+
+  window.setTimeout(() => {
+    celebration.innerHTML = "";
+  }, 2600);
+}
+
+renderWelcome();
+
+  </script>
+</body>
+</html>
